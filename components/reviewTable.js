@@ -9,6 +9,9 @@ app.component('review-table', {
     <label for="review">Review:</label>
     <textarea id="review" v-model="review"></textarea>
 
+    <label for="recommended">Would you recommend this product? (Yes / No)</label>
+    <input id="recommended" v-model="recommended" />
+
     <label for="rating">Rating:</label>
     <select id="rating" v-model.number="rating">
         <option>5</option>
@@ -26,15 +29,25 @@ app.component('review-table', {
         return{
             name: "",
             review: "",
-            rating: null
+            rating: null,
+            recommended: null
         }     
     },
-    method:{
+    methods:{
         onSubmit(){
+            if(this.name === "" || this.review === "" || this.rating === null){
+                alert("Incomplete review, please fill out every field")
+                return
+            }
+            // }else if(this.recommended === null || this.recommended.toLowerCase() !== "yes" || this.recommended.toLowerCase() !== "no"){
+            //     alert("Please type in yes or no if you want to recommend this product")
+            //     return
+            // }
             let formValues = {
                 name: this.name,
                 review: this.review,
-                rating: this.rating
+                rating: this.rating,
+                recommended: this.recommendValue
             }
 
             this.$emit('review-submitted', formValues)
@@ -42,6 +55,12 @@ app.component('review-table', {
             this.name = ""
             this.review = ""
             this.rating = null
+            this.recommended = null
+        }
+    },
+    computed:{
+        recommendValue(){
+            return this.recommended.toLowerCase()
         }
     }
 })
