@@ -5,8 +5,7 @@ app.component('product-display', {
       required: true
     }
   },
-  template: 
-  /*html*/
+  template: /*html*/
   `<div class="product-display">
     <div class="product-container">
       <div class="product-image">
@@ -40,6 +39,8 @@ app.component('product-display', {
         </button>
 
       </div>
+      <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+      <review-table @review-submitted="addReview" ></review-table>
     </div>
   </div>`,
   data() {
@@ -51,7 +52,8 @@ app.component('product-display', {
         variants: [
           { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50 },
           { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 },
-        ]
+        ],
+        reviews: []
     }
   },
   methods: {
@@ -60,6 +62,9 @@ app.component('product-display', {
       },
       updateVariant(index) {
           this.selectedVariant = index
+      },
+      addReview(review){
+        this.reviews.push(review)
       }
   },
   computed: {
